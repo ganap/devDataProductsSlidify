@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Black Scholes Pricing Model</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Black Scholes Pricing Model">
+  <meta name="author" content="ganap">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Black Scholes Pricing Model</h1>
+    <h2></h2>
+    <p>ganap<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Introduction</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The Black-Scholes option pricing model (BSOPM) has been one of the most important developments in finance in the last 50 years</p>
+
+<p>Has provided a good understanding of what options should sell for</p>
+
+<p>Has made options more attractive to individual and institutional investors</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Intuition Into the Black-Scholes Model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The valuation equation has two parts</p>
+
+<pre><code>  - One gives a “pseudo-probability” weighted expected stock price (an inflow)
+
+  - One gives the time-value of money adjusted expected payment at exercise (an outflow)
+</code></pre>
+
+<p>The value of a call option is the difference between the expected benefit from 
+acquiring the stock outright and paying the exercise price on expiration day</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Determinants of the Option Premium</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Asset Price (S)</p>
+
+<p>Strike price (K)</p>
+
+<p>Time until expiration (time)</p>
+
+<p>Volatility (v)</p>
+
+<p>Dividends (div)</p>
+
+<p>Risk-free interest rate (r)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h1>Pricing of a call</h1>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">   S &lt;- 100; K &lt;- 110; v  &lt;- .2; r  &lt;- 0.05; div &lt;- 0.07; dt  &lt;- 0.25
+   kCall &lt;- function(S){  
+      d1  &lt;- (log(S / K) + (r - div + 0.5 * v^2) * dt) / (v * dt^0.5)
+      d2  &lt;- d1 - v * dt^0.5
+      return(exp(-div*dt)* pnorm(d2))
+    }    
+    DeltaCall &lt;- function(S){      
+      d1  &lt;- (log(S / K) + (r - div + 0.5 * v^2) * dt) / (v * dt^0.5)
+      d2  &lt;- d1 - v * dt^0.5    
+      return(exp(-div * dt) * pnorm(d1))
+    }
+ PriceCall &lt;- function(S){
+      return(S * DeltaCall(S) - K * kCall(S))
+    }
+   PriceCall(S)
+</code></pre>
+
+<pre><code>## [1] 0.9342
+</code></pre>
+
+<p>The price of call with the above parameters is <code>0.9342</code></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Problems Using the Black-Scholes Model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Does not work well with options that are deep-in-the-money or substantially out-of-the-money</p>
+
+<p>Produces biased values for very low or  very high volatility stocks</p>
+
+<pre><code>- Increases as the time until expiration increases
+</code></pre>
+
+<p>May yield unreasonable values when an option has only a few days of life remaining</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Introduction'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Intuition Into the Black-Scholes Model'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Determinants of the Option Premium'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Pricing of a call'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Problems Using the Black-Scholes Model'>
+         5
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- MathJax: Fall back to local if CDN offline but local image fonts are not supported (saves >100MB) -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+  </script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <!-- <script src="https://c328740.ssl.cf1.rackcdn.com/mathjax/2.0-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script> -->
+  <script>window.MathJax || document.write('<script type="text/x-mathjax-config">MathJax.Hub.Config({"HTML-CSS":{imageFont:null}});<\/script><script src="libraries/widgets/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"><\/script>')
+</script>
+<!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
